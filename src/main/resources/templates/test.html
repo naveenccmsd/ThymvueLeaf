@@ -1,0 +1,62 @@
+<html>
+<head>
+<style type="text/css">
+a {
+    padding: 0.2em;
+}
+a:hover {
+    background-color: #02AAEE;
+}
+#output {
+    display: block;
+    margin-top: 8px;
+    padding: 1%;
+    border: 1px solid #666;
+    background-color: #efefef;
+    
+}
+</style>
+</head>
+<body>
+<svg width=240 height=240>
+    <path d="M220, 220
+            A200, 200, 0, 0, 0, 20, 20
+            L 20, 220
+            Z"
+    fill = "lightskyblue">
+    </path>
+</svg>
+<a href="#" onclick="return getSuccessOutput();"> test success </a> | <a href="#" onclick="return getFailOutput(); return false;"> test failure</a>
+<div id="output">waiting for action</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+//handles the click event, sends the query
+function getSuccessOutput() {
+    $.ajax({
+        url:'/test',
+        complete: function (response) {
+            $('#output').html(response.responseText);
+        },
+        error: function () {
+            $('#output').html('Bummer: there was an error!');
+        },
+    });
+    return false;
+}
+// handles the click event, sends the query
+function getFailOutput() {
+    $.ajax({
+        url:'myAjax.php',
+        success: function (response) {
+            console.log(data, response);
+            $('#output').html(response);
+        },
+        error: function () {
+            $('#output').html('Bummer: there was an error!');
+        },
+    });
+    return false;
+}
+</script>
+</body>
+</html>
